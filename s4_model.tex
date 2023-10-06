@@ -1,0 +1,72 @@
+
+\section{Model} \label{sec:model}
+
+Our reduced-form empirical facts about differences across trader types suggest a role for collateral demand in driving trade in repo markets. There are, however, limits to their interpretation. First, the observed differences across firm types could be due to unobserved differences in funding needs. That is, hedge funds could demand lower rates than money market funds when lending because they simply have lower funding needs, not because of collateral demand. Second, the observed differences could be to do with differences across firm types based on their network position, including the degree of market power they face or the funding needs of their counterparties. Third, the observed differences could be rationalised through differences in trade size. Finally, it is hard to judge the scale of the observed differences, or put differently the exact effect of collateral demand on equilibrium trade.
+
+For these reasons, we set out a model that formalises the role of the network and the way in which the various elements of a repo transaction are determined in equilibrium. The model also formalises the roles of collateral demand and funding needs, such that the identifying assumptions to disentangle them are clear. Finally, a model allows us to demonstrate the magnitude of collateral demand through counterfactual simulations.
+
+\subsection{Overview}
+Firms trade multiple assets on a network. In a repo transaction the borrower sells a given gilt with an obligation to repurchase it in the future: the borrower temporarily obtains cash in exchange for the gilt, whereas the lender obtains the gilt in exchange for cash. The transaction specifies the loan amount and the interest rate paid by the borrower to the lender. The assets are heterogeneous only in the gilt used as collateral (we abstract away from maturity, for example).
+
+Firms may have a desire for cash (representing liquidity needs) and their desire for specific gilts as collateral (representing their collateral demand, including for shorting or delivery as part of a futures contract). The payoffs to cash or collateral are risky, but there is no default risk when transacting. Firms are heterogeneous in their liquidity needs, their collateral demand, their network position (the set of firms with whom they can trade) and their market power. 
+
+\subsection{Setup}
+
+Let $\mathcal{A}$ denote the set of distinct assets, which we index by $a$ and of which there are $N_a$. Each of these represents repo using a given bond as collateral. There are two types of firm: dealers and customers. Dealer $i$ may transact with customer $j$ or with an inter-dealer market which we index by $D$. Let $q^a_{ijt}$ be the dollar amount borrowed by dealer $i$ from customer $j$ with asset $a$ as collateral and $q^a_{iDt}$ the amount borrowed from the inter-dealer market. The model is static, and so in the remainder of the model section we omit the $t$ subscript for clarity. These amounts can be negative, indicating that $i$ lends to $j$ or $D$. The interest rate paid is $r^a_{ij}$ and $r^a_{iD}$. We assume that a repo transaction in which $\$10$m is lent involves the same value of the bond being provided as collateral.\footnote{This is the same as haircuts being 0, which is true for over 80\% of the transactions in our sample.}
+
+There are $N_d$ dealers and $N_c$ customers, connected within a network denoted by the $N_d \times N_c$ matrix $\mathbf{G}$. If element $G(i,j)=1$ then dealer $i$ and customer $j$ can trade, if $G(i,j)=0$ then they cannot trade. Customers cannot trade with each other and do not have access to the inter-dealer market. This network of trading relationships is exogenous. Let $\mathcal{N}_k$ denote the set of counterparties to which firm $k$ has access, including, if firm $k$ is a dealer, the inter-dealer market. 
+
+Let $Q^a_{i}=\sum_{k \in \mathcal{N}i} q^a_{ij}$ be the total net amount borrowed by firm $i$ against asset $a$, and let $Q_{i}=\sum_a Q^a_{i}$ denote the total net amount borrowed by firm $i$ across all assets. The firm uses this borrowed cash to fund a risky project with expected return $\nu_{i}$ and unit variance. Firm $i$ may also obtain a risky payoff from the collateral that has expected return $\eta^a_i$ and variance $\sigma$. Firms are thus heterogeneous in the returns to cash and to temporary ownership of the asset, as captured by $\nu_i$ and $\eta^a_{i}$, where this heterogeneity could come from individual liquidity needs, expectations about the returns to shorting the underlying bonds or individual endowments of cash or the bonds. Finally, firms may also earn a non-pecuniary payoff from the transaction, $\epsilon^a_{ij}$, which is a reduced form representation of the importance of specific trading relationships.
+
+Firms have mean-variance preferences, with risk aversion $\kappa/2$. The utility to firm $i$ is:
+\begin{equation}
+    \nu_{i}Q_{i}-\frac{\kappa}{2}Q^2_{i}-\sum_a \eta_{i}^a Q^a_{i}-\sum_a \frac{\kappa}{2}\sigma (Q^a_{i})^2-\sum_a \sum_{m \in \mathcal{N}_i}  q^a_{im}(r^a_{im}+\epsilon^a_{im})
+\end{equation}
+
+%Firms choose their portfolios in order to maximise this utility. We do not model the firm's choice of haircuts, but assume they are set separately by a risk management or treasury department and do not vary with the firm's portfolio choice.
+
+\subsection{Solving the model}
+
+We first consider trades between dealers and customers, before considering inter-dealer trade. We assume that dealers have market power with respect to the customers, whereas customers are price takers, in keeping with our empirical evidence and existing findings in the literature \citep{eisenschmidt2022monetary, huber2023market}.
+
+The first order condition for customer $j$ in the periphery with respect to $q^a_{ij}$ is as follows, remembering that $q^a_{ij}$ is the amount lent from $j$ to $i$:
+\begin{equation}\label{eqn:focperiphery}
+    \underbrace{-\nu_{j}+\kappa Q_{j}}_\text{- $j$'s MB from cash}+\underbrace{\eta^a_{j}+\kappa \sigma Q^a_{j}}_\text{$j$'s MB from collateral}+r^a_{ij}=0
+\end{equation}
+
+The first order condition for dealer $i$ transacting with customer $j$ with respect to $q^a_{ij}$ has two additional term representing the price effect, which follow directly from the equilibrium condition in Equation \ref{eqn:focperiphery}: borrowing marginally more from $j$ increases $j$'s marginal value for cash and decreases its marginal value for collateral, both of which increase the rate at which $j$ is willing to lend to $i$.
+\begin{equation}\label{eqn:focdealer}
+    \underbrace{\vphantom{\sum_m}\nu_{i}-\kappa Q_{i}}_\text{$i$'s MB from cash}\underbrace{-\eta^a_{i}-\kappa \sigma  Q^a_{i}\vphantom{\sum_m}}_\text{- $i$'s MB from collateral} \underbrace{-\kappa \sum_l q^l_{ij}-\kappa \sigma q^a_{ij} }_\text{Price effect}-\epsilon^a_{ij}-r^a_{ij}=0
+\end{equation}
+
+These two first order conditions together pin down the equilibrium interest rate and trade, conditional on each firm's other trades. Turning to interdealer trade, we assume that the interdealer market is competitive and clears with a single interdealer rate such that aggregate interdealer trade in a given asset must sum to 0: $\sum_i q^a_{iD}=0$. The first order condition for dealer $i$ with respect to $q^a_{iD}$ is as follows:
+
+\begin{equation}\label{eqn:focdealerdealer}
+    \underbrace{\vphantom{\sum_m}\nu_{i}-\kappa Q_{i}}_\text{$i$'s MB from cash}\underbrace{-\eta^a_{i}-\kappa \sigma  Q^a_{i}\vphantom{\sum_m}}_\text{- $i$'s MB from collateral} -\epsilon^a_{iD}-r^a_{D}=0
+\end{equation}
+
+To pin down the equilibrium interdealer interest rate, sum Equation \ref{eqn:focdealerdealer} over all dealers and impose the market clearing condition that $\sum_i q^a_{iD}=0$. It follows immediately that the equilibrium interdealer rate $r^a_{D}$ is a function of the average $\nu_{i}$ and $\eta_i^a$ across dealers and their average trades with customers. These first order conditions pin down the unique set of equilibrium portfolio choices by firms.
+
+The model build on and adapts the model of \cite{eisfeldt2023otc} on credit default swaps in the following ways to make it suitable for our setting. We include a role for collateral demand, and in doing so include multiple assets as we allow for differences across repos depending on the underlying collateral. We assume that the core of our network has market power, in keeping with the literature on repo \citep{eisenschmidt2022monetary, huber2023market} and our empirical facts. Finally, we do not include reduced form concentration aversion, but instead obtain the necessary curvature to payoffs through risk on the collateral demand side. 
+
+\subsection{Simplified example}
+
+To illustrate some of the mechanisms in the model, consider the case with a single dealer, a single hedge fund and two assets. Suppose the dealer (indexed by $i$) does not have collateral demand, such that $\eta^1_i=\eta^2_i=0$. The hedge fund (indexed by $j$) does have collateral demand, where $\eta^1_j>\eta^2_j>0$ (indicating a preference for asset 1). Suppose all $\epsilon$ are equal to 0. 
+
+It is straightforward from the linear first order conditions to pin down aggregate lending between the two firms (Equation \ref{eqn:eg1}) and its distribution across the two assets (Equation \ref{eqn:eg2}):
+\begin{equation}\label{eqn:eg1}
+    q^1_{ij}+q^2_{ij}=\frac{\nu_{i}-\nu_{j}+0.5(\eta^1_j+\eta^2_j)}{3\kappa(1+\sigma)}
+\end{equation}
+
+\begin{equation}\label{eqn:eg2}
+    q^1_{ij}-q^2_{ij}=\frac{\eta_j^1-\eta_j^2}{3\kappa\sigma}
+\end{equation}
+
+The distribution of aggregate lending across the assets depends on the hedge fund's relative preferences over them, as the dealer is indifferent between them. The importance of collateral demand for aggregate trading depends on the size of $\eta^1_{j}$ and $\eta^2_{j}$: the bigger they are, the greater the net lending from the hedge fund to the dealer. 
+
+Note that the direction of this effect on trading volumes, $abs(q^1_{ij}+q^2_{ij})$, depends on the firms' relative funding needs, $\nu_i-\nu_j$. If this is positive, then collateral demand complements funding needs, such that its presence increases trading volumes. Suppose, on the other hand, that $\nu_i<<\nu_j$, such that in equilibrium the dealer lends to the hedge fund. In this case, trading volumes are \textit{decreasing} in collateral demand, as it limits the extent to which the hedge fund is willing to give up its collateral in order to borrow.
+
+The implication is that the effect of collateral demand on repo market functioning depends not just on its size, but also on its joint distribution with funding needs. That is, collateral demand only lubricates (in the words of \cite{singh2011velocity}) repo market functioning if it is distributed in the right way relative to funding needs.
+
+
+
