@@ -1,0 +1,66 @@
+\section{Estimation}\label{sec:estimation}
+
+We now turn to estimating our model, where our task is to infer firms' funding needs $\nu_{it}$ and collateral demand $\eta_{it}^a$ with as much generality as possible, together with firms' risk aversion $\kappa$ and the risk associated with collateral demand $\sigma$.
+
+We aggregate our transactions data to the pair-asset-week level, such that for each pair of firms that write repos in a given week against a given gilt, we compute their net repo trading against that gilt in that week $q_{ijt}^a$, together with the average interest rate on these transactions $r_{ijt}^a$. This gives us a dataset that varies across pairs $i-j$, gilts $a$ and weeks $t$. 
+
+We estimate a separate funding need $\nu_{it}$ for each firm $i$ in week $t$, and a separate collateral demand $\eta^a_{it}$ by firm $i$ for asset $a$ at time $t$. As a result, we need to find the unknown parameter vector $\mathbf{\Theta}=(\bm{\nu}, \bm{\eta}, \kappa, \sigma)$: respectively, the vector of firm funding needs across firms and weeks, the vector of  collateral demand across firms, weeks and assets, risk aversion and the risk associated with collateral demand. We look to infer this parameter vector from transaction data on trading quantity $\mathbf{q}$ and the interest rate paid by the borrower $\mathbf{r}$.\footnote{The haircut data to which we have access is (for now) incomplete and of low quality. Given what we do observe with reasonable accuracy, it seems that over 80\% of transactions involve zero haircut (or, in the notation of our model, haircut multipliers of 1). In what follows we assume that this haircut multipliers are 1 for all transactions.}
+
+Equations \ref{eqn:focperiphery} and \ref{eqn:focdealer} of our model imply the following estimating equation:
+
+\begin{equation}\label{eqn:estimating}
+    r^a_{ijt}=\delta^a_{it}-\bigg[ \kappa \sum_l q^l_{ijt}+\kappa \sigma q^a_{ijt} \bigg] \mathds{1}_{ij}+\epsilon^a_{ijt}
+\end{equation}
+
+\noindent where $\mathds{1}_{ij}$ is an indicator variable that takes the value 1 if $i$ is a dealer in the core and $j$ is in the periphery (indicating market power), and 0 otherwise, and where the $i \times t \times g$ fixed effect $\delta^a_{it}$ captures $i$'s preferences over cash and the gilt:
+\begin{equation}\label{eqn:fixedEffectReg}
+    \delta^a_{it}=\nu_{it}-\kappa Q_{it}-\eta^a_{it}-\kappa \sigma \sum_m q^a_{imt}
+\end{equation}
+
+Our estimating approach is to estimate $\kappa$ and $\sigma$ from estimating Equation \ref{eqn:estimating}, and then to estimate $\nu_{it}$ and $\eta^a_{it}$ using Equation \ref{eqn:fixedEffectReg}. 
+
+In doing this, we face two challenges. First, rates and quantities are jointly determined, so we need exogenous variation in trading quantity $q^a_{ijt}$ in order to estimate Equation \ref{eqn:estimating}. Second, we need to separately identify $\nu_{it}$ and $\eta_{it}$.
+
+We solve the first challenge by making use of the facts that (a) firms differ in the gilts against which they borrow, as shown in Figure \ref{fig:collateralUse}, (b) the prices of different gilts vary differentially through time, and (c) these prices are plausibly exogenous, in that they are unlikely to be affected by the repo transactions of individual pairs of banks. As a result, we can use variation in gilt prices to isolate exogenous variation in firm $j$'s net demand for cash and collateral in Equation \ref{eqn:estimating}, and use this to identify the slope of $i$'s demand net demand for cash and collateral, which gives us $\kappa$ and $\sigma$.
+
+Formally, we compute two instrumental variables for the two endogenous terms in Equation \ref{eqn:estimating}, which capture $j$'s net demand for cash and asset $a$ at time $t$. To do so, for each firm $j$ at time $t$ we construct a measure of their ``wallet'': the subset of gilts against which they hold, and against which they can borrow. To do so, we look at the preceding 4 weeks, and identify the set of gilts $\omega_j$ against which firm $j$ borrowed, and the percentage of their net borrowing that was against each of these gilts $s_{jt}^a$, for all $a$ in $\omega_j$. We then construct the sum of the prices of the bonds in $j$'s wallet, weighted by the shares $s_{jt}^a$: 
+
+\begin{equation}\label{eq:firstInstrument}
+    z_{1,jt}=\sum_{a \in \omega_j}s_{jt}^a \times\text{price}^a_{t}
+\end{equation}
+
+If this decreases, this means $j$ has a lower value of collateral against which they borrow, which means their ability to borrow is more constrained. As a result, we should see a positive relationship between $j$'s borrowing and its instrument $z_{1,jt}$.
+
+We then construct a second instrument as follows:
+
+\begin{equation}\label{eq:secondInstrument}
+z^a_{2,jt}= z_{1,jt}-s_{jt}^a\times\text{price}^a_{t}
+\end{equation}
+
+This is the change in the value of the gilts in $j$'s wallet, \textit{except asset $a$}. If this decreases then the other assets in $j$'s wallet are less valuable, which means that -- conditional on the value of $a$ not changing -- they will aim to borrow more heavily against gilt $a$ to fill the shortfall. As a result, we should see a negative relationship between $j$'s borrowing in $a$ and its instrument $z^a_{2,jt}$.
+
+We use these instruments in the following first-stage regressions:
+
+\vspace{-8pt}
+
+\begin{align*}
+    q^a_{ijt}&=\alpha^a_{it}+\beta_1 z_{1,jt}+\beta_2 z^a_{2,jt}+e^a_{ijt}\\
+    \sum_l q^l_{ijt}&=\alpha^a_{it}+\beta_3 z_{1,jt}+\beta_4 z^a_{2,jt}+e^a_{ijt}
+\end{align*}
+
+
+We solve the second challenge by making use of variation across gilts. We estimate $\delta^a_{it}$ in the first stage in which we recover estimates of $\kappa$ and $\sigma$. Given these estimates, the only unknowns are $\eta^a_{it}$ and $\nu_{it}$:
+
+\begin{equation}
+    \hat{\delta}^a_{it}+\hat{\kappa} Q_{it}+\hat{\kappa} \hat{\sigma}\sum_m q^a_{imt} \equiv \hat{y}^a_{it}=\nu_{it}-\eta^a_{it}
+\end{equation}
+
+\noindent where for notational simplicity we aggregate the known combinations of estimated parameters from the first stage and data in to the term $\hat{y}^a_{it}$. This term can be interpreted as the average interest rate paid by firm $i$ at time $t$ adjusted for trade-size and network position, such that any remaining heterogeneity across firms and time comes from their funding need and collateral demand.
+
+Variation in $\hat{y}^a_{it}$ across $a$ pins down differences in $\eta^a_{it}$. To separately pin down the level of $\eta^a_{it}$ and $v_{it}$, we assume that $min_a \eta^a_{it}=0$ within $i$ and $t$: that is, collateral demand for $a^{'}$ is the incremental value ascribed by firm $i$ to $a^{'}$ over its least valued $a$. This gives us a semi-parametric approach to recovering $\eta^a_{it}$ and $\nu_{it}$ across $i$ and $t$, in that the only restrictions we impose are on the smallest collateral demands across $a$ and within $i$ and $t$.
+
+Any benefit to the gilt that is not collateral demand and that is common to all gilts (such as its use as collateral in the sense of insurance against default) is captured under what we call funding needs $\nu_{it}$. If, on the other hand, agent $i$ has strictly positive collateral demand for all gilts (for example, if the agent wants to short all gilts), then this approach would misidentify some of this as funding needs. Thus we interpret this as a lower bound on the true collateral demand parameters.
+
+
+
+
