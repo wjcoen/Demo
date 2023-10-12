@@ -1,0 +1,661 @@
+\documentclass{beamer}
+
+\usetheme{eric}
+\usepackage{mathptmx}
+\usepackage[utf8]{inputenc}
+\usepackage{adjustbox}
+\beamertemplatenavigationsymbolsempty
+\usepackage{dcolumn}
+\usepackage[justification=RaggedRight, margin=10pt,font=scriptsize,labelfont=bf]{caption}
+\usepackage{graphicx,psfrag,amsmath,amssymb,amsfonts,dsfont}
+\usepackage[T1]{fontenc}
+\usepackage{caption,subcaption}
+\usepackage{lmodern}
+\usepackage{pifont}
+\usepackage{graphicx}
+\usepackage{xcolor}
+  \usepackage{soul}
+\usepackage{fixltx2e} %Fixes some LaTeX2e errors
+\setcounter{tocdepth}{1}
+\usepackage{tabularx}
+\makeatletter
+\newcommand{\mathleft}{\@fleqntrue\@mathmargin0pt}
+\newcommand{\mathcenter}{\@fleqnfalse}
+\makeatother
+\usepackage{relsize}
+\usepackage{multirow}
+\usepackage{hyperref}
+\newcommand{\xsub}[1]{%
+  \mbox{\scriptsize\begin{tabular}{@{}c@{}}#1\end{tabular}}%
+}
+\usepackage{lipsum}
+\setbeamertemplate{footline}{% 
+  \hfill% 
+  \usebeamercolor[fg]{page number in head/foot}% 
+  \usebeamerfont{page number in head/foot}% 
+  \insertframenumber%
+  %\,/\,\inserttotalframenumber
+  \kern1em\vskip2pt% 
+}
+\usepackage{ulem}
+\usepackage{eurosym}
+\usepackage{mathtools}
+
+\usepackage{booktabs}
+\newcolumntype{C}[1]{>{\centering\let\newline\\
+\arraybackslash\hspace{0pt}}m{#1}}
+
+\usepackage{caption}
+\captionsetup[figure]{labelformat=empty}
+
+ \newcommand\fnote[1]{\captionsetup{font=scriptsize,skip=-5pt}\caption*{#1}}
+
+\newtheorem{prop}{Proposition}
+\newcommand{\red}[1]{{ \color{red} {{#1} }}}
+\newcommand{\xred}[1]{{\color{red}{{\sout{{#1} }}}}}
+\newcommand{\xxred}[1]{{\color{red}{{\xout{{#1} }}}}}
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning}
+
+\newcommand{\backupbegin}{
+   \newcounter{framenumberappendix}
+   \setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \addtocounter{framenumberappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumberappendix}} 
+}
+ 
+\newcommand\Tstrut{\rule{0pt}{2.6ex}}        
+ 
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\bt}[1]{\textbf{\color{LightBlue}{{#1}}}}
+\newcommand{\bdt}[1]{\textbf{\color{ImperialColor}{{#1}}}}
+\newcommand{\bnt}[1]{\color{ImperialColor}{{#1}}}
+\setbeamertemplate{mini frames}{}
+\setbeamertemplate{navigation symbols}{}
+\renewcommand{\insertnavigation}[1]{} % re
+
+
+\title[Collateral demand \& liquidity demand]{Collateral demand and liquidity demand in wholesale funding markets}% Title TBD
+
+\author[Coen, Coen \& H\"user]{Jamie Coen\inst{1} \and Patrick Coen\inst{2} \and Anne-Caroline H\"user\inst{3}}
+\institute[shortinst]{\inst{1} Imperial College London \and \inst{2} Toulouse School of Economics \and \inst{3} Bank of England}
+
+\vspace{-6pt}
+\date{\bdt{Yale Junior Finance Conference}\\September 2023\\
+\vspace{6pt}
+{\scriptsize Views are solely those of the authors and so cannot be taken to represent those of the Bank of England.}
+}
+
+
+
+\begin{document}
+
+%SLIDE 1
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+\begin{frame}{Repo Markets}
+
+Repurchase agreements key source of financial firms' funding. \\
+$\rightarrow$ Matter for financial stability, asset prices \& monetary policy.
+
+\vspace{16pt}
+
+Repo: sell asset at $t$, promise to buy it back at $t+1$.
+
+\vspace{16pt}
+
+Repo serves two functions:
+
+\begin{enumerate}
+\item Acquiring funding.
+\item Acquiring assets.
+\end{enumerate}
+
+\vspace{12pt}
+
+\bdt{Collateral demand}: acquiring specific assets using repo.
+
+\vspace{16pt}
+
+This paper:\\
+\bdt{How does collateral demand impact repo markets?}
+
+\end{frame}
+
+%%
+% Summary
+%%
+
+\begin{frame}{This Paper}
+
+
+\begin{enumerate}
+\item Data: universe of repo against UK government bonds. 
+
+\vspace{8pt}
+
+\item Empirical facts on collateral demand.
+
+\vspace{8pt}
+
+\item Equilibrium model of repo: supply \& demand for funding \& collateral.
+
+\vspace{8pt}
+
+\item Estimate model.
+
+\vspace{8pt}
+
+\item Post-estimation:
+
+\begin{itemize}
+\item Properties of collateral demand.
+\item Counterfactual: equilibrium impact of collateral demand.
+\item Implications for monetary policy \& asset pricing.
+\end{itemize}
+
+\end{enumerate}
+
+\end{frame}
+
+
+
+\begin{frame}{This Paper}
+
+\bdt{Empirical patterns:}
+
+\begin{enumerate}
+    \item Collateral demand key driver of market outcomes.
+    \item Variation across firms \& assets. 
+    \item Complementarity between collateral demand \& funding supply.
+\end{enumerate}
+
+\vspace{8pt}
+
+\bdt{Model:}\\
+Impact of collateral demand on funding conditions depends on $\text{corr(funding demand, coll. demand)}$.
+
+\vspace{8pt}
+
+\bdt{Results:}\\
+Collateral demand peaks during stress.
+
+\vspace{8pt}
+
+\bdt{Counterfactual:}\\ 
+Collateral demand boosts supply of funding, reduces rates, and boosts welfare.
+
+\end{frame}
+
+
+\begin{frame}{Literature}
+
+\bdt{Empirical literature on repo}\\
+{\relsize{-1}Gorton and Metrick (2012); 
+Copeland, Martin \& Walker (2014); Krishnamurthy, Nagel \& Orlov (2014); Mancini, Ranaldo \& Wrampelmeyer (2016); Boissel, Derrien, Ors \& Thesmar (2017); 
+\bdt{Ranaldo, Schaffner \& Tsatsaronis (2019)}; H\"user, Lepore \& Veraart (2021);
+\bdt{Eisenschmidt, Ma \& Zhang (2022)};
+Julliard, Pinter, Todorov \& Yuan (2023); 
+\bdt{Huber (2023)}.}
+
+\vspace{8pt}
+
+\bdt{Contribution:} show importance of collateral demand \& quantify using structural model.
+
+\vspace{12pt}
+
+\bdt{Market for borrowing assets}\\
+{\relsize{-1}D'Avolio (2002); 
+Asquith, Au, Covert \& Pathak (2013);
+Chen, Kaniel, and Opp (2022).}
+
+\vspace{12pt}
+
+\bdt{Repo theory}\\
+
+{\relsize{-1}Andolfatto, Martin, \& Zhang (2017);
+Gottardi, Maurin, \& Monnet (2019); [X]}
+
+\end{frame}
+
+
+
+\begin{frame}{Data}
+
+BoE transaction data on $\approx$ \bdt{universe of repo trading against UK government collateral} (gilts) from 2017-23.
+
+\vspace{12pt}
+
+All relevant details of trade:
+
+\begin{itemize}
+\item Price.
+\item Quantity.
+\item Haircut.
+\item Collateral.
+\item Trader identity.
+\item Cleared, triparty, brokered, etc.
+\end{itemize}
+
+\vspace{12pt}
+
+Bloomberg daily gilt price data.
+
+
+\end{frame}
+
+
+\begin{frame}{Why use Repo?}
+
+\bdt{Funding motive:}
+\begin{itemize}
+\item Cheap and flexible way of obtaining short-term funding.
+\end{itemize}
+
+\vspace{12pt}
+
+\bdt{Collateral motive:}
+\begin{itemize}
+\item Borrow asset as part of short-selling strategy. 
+\item Borrow asset to honour a commitment in derivatives contract.
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%
+%%% Empirical facts %%
+%%%%%%%%%%%%
+
+\section{Empirical Facts}
+
+\begin{frame}{Facts on Collateral Demand}
+
+\begin{enumerate}
+\item Collateral demand plays a \bdt{major role in repo markets}.
+\vspace{16pt}
+\item \textcolor{gray}{Collateral demand \textbf{varies across traders and assets}.}
+\vspace{16pt}
+\item \textcolor{gray}{Supply of cash and counterparty demand for collateral are \textbf{complements}.}
+\end{enumerate}
+
+\end{frame}
+
+
+
+\begin{frame}{Rates through time on dealer repo lending}
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{FiguresTables/ratesThroughTimeDealerLending.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Facts on Collateral Demand}
+
+\begin{enumerate}
+\item Collateral demand plays a \bdt{major role in repo markets}.
+\vspace{16pt}
+\item Collateral demand \bdt{varies across traders and assets}.
+\vspace{16pt}
+\item \textcolor{gray}{Supply of cash and counterparty demand for collateral are \textbf{complements}.}
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}{Rate Variation: Hedge Fund vs MMF Lending}
+\input{FiguresTables/rsquaredSector_s}
+\centering{\footnotesize{Rate variation: hedge funds vs MMFs lending}}
+\end{frame}
+
+\begin{frame}{Facts on Collateral Demand}\label{frame:fact3}
+
+\begin{enumerate}
+\item Collateral demand plays a \bdt{major role in repo markets}.
+\vspace{16pt}
+\item Collateral demand \bdt{varies across traders and assets}.
+\vspace{16pt}
+\item Supply of cash and counterparty demand for collateral are \bdt{complements}.
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}{Repo rates \& collateralization type}
+\input{FiguresTables/regsRateDBV_s}
+\hyperlink{frame:rateHFMMF}{\beamerbutton{MMF vs HF rates}} 
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Structure of Sterling gilt repo market}\label{frame:instFacts}
+
+\begin{enumerate}
+\item Network sparse \& broadly fixed. \hyperlink{frame:addFacts}{\beamerbutton{Details}}  
+\item Market participants: MMFs vs hedge funds. \hyperlink{frame:netLendingSector}{\beamerbutton{Details}}  
+\begin{itemize}
+\item MMFs uniquely lend \& don't use the collateral. 
+\item Hedge funds borrow \& lend, and sometimes trade to get collateral (e.g. to short). 
+\end{itemize}
+\item Different firms borrow against different gilts. \hyperlink{frame:giltVariation}{\beamerbutton{Wallet variation}}  
+\item Dealers earn a spread. \hyperlink{frame:dealerSpreads}{\beamerbutton{Dealer spreads}}  
+\end{enumerate}
+\end{frame}
+
+
+
+
+
+
+%%%%%%%%%
+%%% Model %%%
+%%%%%%%%%
+
+\section{Model}
+
+\begin{frame}{Model}
+
+Why a model?
+
+\begin{itemize}
+\item 
+\item 
+\end{itemize}
+
+What type of model?
+
+\begin{itemize}
+\item Formalise funding demand \& collateral demand.
+\item Match empirical facts. 
+\item Simple \& estimable.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Model setup}
+
+[X]
+
+\end{frame}
+
+
+\begin{frame}{Payoffs}
+
+Utility to firm $i$ is:
+\begin{equation*}
+    \underbrace{\vphantom{\sum_a}\nu_{i}Q_{i}-\frac{\kappa}{2}Q^2_{i}}_{\text{Funding}}\underbrace{-\sum_a \eta_{i}^a Q^a_{i}-\sum_a \frac{\kappa}{2}\sigma (Q^a_{i})^2}_{\text{Collateral demand}}-\sum_a \sum_{m \in \mathcal{N}_i}  q^a_{im}(r^a_{im}+\epsilon^a_{im})
+\end{equation*}
+
+\end{frame}
+
+
+\begin{frame}{First-order condition}
+
+Dealer-customer:
+\begin{equation*}
+    \underbrace{\vphantom{\sum_m}\nu_{i}-\kappa Q_{i}}_\text{$i$'s MB from cash}\underbrace{-\eta^a_{i}-\kappa \sigma  Q^a_{i}\vphantom{\sum_m}}_\text{ -$i$'s MB from collateral} \underbrace{-\kappa \sum_l q^l_{ij}-\kappa \sigma q^a_{ij} }_\text{Price effect}-\epsilon^a_{ij}=r^a_{ij}
+\end{equation*}
+
+\end{frame}
+
+
+\begin{frame}{Simple example}
+
+[X]
+\end{frame}
+
+%%%%%%%%%%%
+%%% Estimation %%%
+%%%%%%%%%%%
+
+\section{Estimation}
+
+
+\begin{frame}{Estimation: setting}
+
+\end{frame}
+
+
+\begin{frame}{Estimating equations}
+
+Equilibrium condition:
+
+\begin{equation*}
+    r^a_{ijt}=\delta^a_{it}-\bigg[ \textcolor{red}{\kappa} \sum_l q^l_{ijt}+\textcolor{red}{\kappa \sigma} q^a_{ijt} \bigg] \mathds{1}_{ij}+\epsilon^a_{ijt}
+\end{equation*}
+
+Auxiliary regressions:
+
+\begin{equation*}
+    \delta^a_{it}=\textcolor{red}{\nu_{it}}-\kappa Q_{it}-\textcolor{red}{\eta^a_{it}}-\kappa \sigma \sum_m q^a_{imt}
+\end{equation*}
+
+Assumption on collateral demand:
+
+\begin{equation*}
+	\min_{a}\eta_{it}^a=0 \quad \forall i,t
+\end{equation*}
+
+\end{frame}
+
+
+\begin{frame}{Estimation: Instruments}\label{frame:instruments}
+
+\bdt{Issue}: repo rates and quantities jointly determined. 
+
+\vspace{12pt}
+
+\bdt{Solution}: IVs/shifters. 
+
+\vspace{12pt}
+
+\bdt{Idea}:
+\begin{enumerate}
+\item Firms use different gilts as collateral, for exogenous/pre-determined reasons (different collateral `\bdt{wallets}').    \hyperlink{frame:giltVariation}{\beamerbutton{Wallet variation}}    
+\item Movements in gilt markets create variation across firms' wallets, which create variation in incentives and ability to borrow that is plausibly exogenous.
+\item Use IVs based on this. \hyperlink{frame:instrumentDetails}{\beamerbutton{Details}}    
+\end{enumerate}
+
+\end{frame}
+
+
+%%%%%%%%%
+%% Results
+%%%%%%%%
+
+
+\section{Results}
+
+\begin{frame}{Estimates: risk \& risk aversion}\label{frame:results}
+\input{FiguresTables/reg_results_s}
+
+\begin{itemize}
+\item Risk aversion $\kappa=0.16$.
+\item Risk of collateral use $\sigma=1.47$. \hyperlink{frame:firstStage}{\beamerbutton{FirstStage}}    
+\end{itemize}
+
+\end{frame}
+
+%% funding + collateral demand
+
+\begin{frame}{Estimates: funding \& collateral demand}
+\begin{figure}[t]
+\centering
+\begin{subfigure}{.48\textwidth}
+   \centering
+            \includegraphics[width=\textwidth]{FiguresTables/nu_ts_tsls.pdf}
+            \caption{Funding demand}
+            \label{fig:nu_ts}
+\end{subfigure}
+\hfill
+\begin{subfigure}{.48\textwidth}
+   \centering
+            \includegraphics[width=\textwidth]{FiguresTables/eta_ts_tsls.pdf}
+            \caption{Collateral demand}
+            \label{fig:eta_ts}
+\end{subfigure}
+\end{figure}
+\end{frame}
+
+
+
+%%%%%%%%%
+%% Counterfactual
+%%%%%%%%
+
+
+\begin{frame}{Counterfactual: Removing Collateral Demand}
+\input{FiguresTables/cfTable_s}
+
+Collateral demand reduces repo rates, increases total funding \& increases welfare.
+
+\end{frame}
+
+
+\begin{frame}{Next Steps}
+
+How does collateral demand vary around \bdt{monetary policy shifts}?
+
+\vspace{15pt}
+
+Spillovers to \bdt{asset prices}:
+\begin{enumerate}
+\item Asset-level: demand for asset $a$ and price of $a$.
+\item Firm-level: repo conditions for firm $i$ and prices of assets traded by $i$.
+\end{enumerate}
+
+\vspace{15pt}
+
+Correlations between \bdt{funding \& collateral demand} + implications.
+
+\end{frame}
+
+
+%%%%%%%%%%%
+%%% Conclusion %%
+%%%%%%%%%%%
+
+\begin{frame}{Conclusion}
+
+XXX
+
+\end{frame}
+
+
+%%%%%%%%
+%% Backup
+%%%%%%%%
+
+%% net lending by sector
+
+\begin{frame}{Net lending by sector}\label{frame:netLendingSector}
+\input{FiguresTables/netLendingSector_s}
+\hyperlink{frame:instFacts}{\beamerbutton{Back}}  
+\end{frame}
+
+%% aux facts
+
+\begin{frame}{Additional facts}\label{frame:addFacts}
+
+\begin{enumerate}
+\item Fewer than 2\% of counterparty pairs have non-zero trade in the whole sample. 
+
+\vspace{16pt}
+
+
+\item Over 95\% of transactions after January 2022 onwards were between traders who had traded together
+before January 2022.  
+
+\hyperlink{frame:instFacts}{\beamerbutton{Back}}  
+\end{enumerate}
+\end{frame}
+
+
+%% rate variation by sector
+
+
+\begin{frame}{Repo rate variation}
+\input{FiguresTables/variationPrices_s}
+\centering{\footnotesize{Rate variation}}
+\end{frame}
+
+
+\begin{frame}{Dealer spreads}\label{frame:dealerSpreads}
+\input{FiguresTables/dealerRents_s}
+\end{frame}
+
+\begin{frame}{Rates for hedge funds vs MMFs}\label{frame:rateHFMMF}
+\input{FiguresTables/regsRateMMFHF_s}
+
+\hyperlink{frame:fact3}{\beamerbutton{Back}}  
+\end{frame}
+
+
+%% wallet variation
+
+\begin{frame}{Variation in use of gilts in repo borrowing}\label{frame:giltVariation}
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{FiguresTables/collateralBarChart.pdf}
+\end{figure}
+\hyperlink{frame:instruments}{\beamerbutton{IV}}   \hyperlink{frame:instFacts}{\beamerbutton{Institutional facts}}  
+\end{frame}
+
+
+%% Instrument details
+\begin{frame}{Instruments: Details}\label{frame:instrumentDetails}
+
+Instruments:
+
+\vspace{-10pt}
+
+\begin{align*}
+    z_{1,jt}&=\sum_{a \in \omega_j}s_{jt}^a \times\text{price}^a_{t}\\
+z^a_{2,jt}&= z_{1,jt}-s_{jt}^a\times\text{price}^a_{t}
+\end{align*}
+
+First stage:
+
+\vspace{-10pt}
+
+\begin{align*}
+    q^a_{ijt}&=\alpha^a_{it}+\beta_1 z_{1,jt}+\beta_2 z^a_{2,jt}+e^a_{ijt}\\
+    \sum_l q^l_{ijt}&=\alpha^a_{it}+\beta_3 z_{1,jt}+\beta_4 z^a_{2,jt}+e^a_{ijt}
+\end{align*}
+
+Second stage:
+
+\vspace{-10pt}
+
+\begin{equation*}
+    r^a_{ijt}=\delta^a_{it}-\bigg[ \kappa \sum_l q^l_{ijt}+\kappa \sigma q^a_{ijt} \bigg] \mathds{1}_{ij}+\epsilon^a_{ijt}
+\end{equation*}
+
+\vspace{-10pt}
+
+\hyperlink{frame:instruments}{\beamerbutton{Back}}    
+
+\end{frame}
+
+%% first stage
+\begin{frame}{First Stage}\label{frame:results}
+\input{FiguresTables/first_stage_results_s}
+ \hyperlink{frame:results}{\beamerbutton{Back}}    
+\end{frame}
+
+
+\end{document}
+
+
+
+
